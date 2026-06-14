@@ -1,0 +1,21 @@
+{
+  "name": "Atlas Language OS",
+  "short_name": "AtlasOS",
+  "description": "Offline-first English learning platform from A1 to C1",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/vite.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
