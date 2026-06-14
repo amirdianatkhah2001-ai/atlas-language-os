@@ -3,8 +3,16 @@ import { GlassCard } from '../components/GlassCard'
 import { readingTexts } from '../data/content'
 import { useAppStore } from '../stores/useAppStore'
 
+const defaultText = readingTexts[0] ?? {
+  id: 'reading-fallback',
+  level: 'A1',
+  title: 'Fallback Reading',
+  text: 'Fallback offline reading text.',
+  questions: ['What did you understand?'],
+}
+
 export function ReadingPage() {
-  const [selected, setSelected] = useState(readingTexts[1])
+  const [selected, setSelected] = useState(readingTexts[1] ?? defaultText)
   const [selectedWord, setSelectedWord] = useState('')
   const { addVocabularyWord } = useAppStore()
 

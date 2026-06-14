@@ -59,6 +59,7 @@ export interface UserProgress {
   xp: number
   level: number
   streakDays: number
+  lastStudyDate: string | null
   studyMinutes: number
   learnedWordIds: string[]
   completedLessons: string[]

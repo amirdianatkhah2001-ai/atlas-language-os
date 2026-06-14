@@ -45,6 +45,7 @@ const initialProgress: UserProgress = {
   xp: 0,
   level: 1,
   streakDays: 1,
+  lastStudyDate: new Date().toDateString(),
   studyMinutes: 0,
   learnedWordIds: [],
   completedLessons: [],
@@ -52,11 +53,20 @@ const initialProgress: UserProgress = {
   scenarioProgress: {},
 }
 
+const updateStreakForToday = (state: UserProgress): Pick<UserProgress, 'lastStudyDate' | 'streakDays'> => {
+  const today = new Date().toDateString()
+  if (state.lastStudyDate === today) {
+    return { lastStudyDate: state.lastStudyDate, streakDays: state.streakDays }
+  }
+  return { lastStudyDate: today, streakDays: state.streakDays + 1 }
+}
+
 const persistProgress = (state: AppState): void => {
   void saveProgress({
     xp: state.xp,
     level: state.level,
     streakDays: state.streakDays,
+    lastStudyDate: state.lastStudyDate,
     studyMinutes: state.studyMinutes,
     learnedWordIds: state.learnedWordIds,
     completedLessons: state.completedLessons,
@@ -113,7 +123,7 @@ export const useAppStore = create<AppState>()(
           const updated = {
             ...state,
             completedLessons: [...state.completedLessons, lessonId],
-            streakDays: state.streakDays + 1,
+            ...updateStreakForToday(state),
             studyMinutes: state.studyMinutes + 10,
           }
           const achievementsMeta = recalculateAchievements(updated)
@@ -209,6 +219,7 @@ export const useAppStore = create<AppState>()(
             ...state,
             studyMinutes: state.studyMinutes + minutes,
             inSessionMinutes: state.inSessionMinutes + minutes,
+            ...updateStreakForToday(state),
           }
           const achievementsMeta = recalculateAchievements(nextState)
           const achievements = achievementsMeta.filter((a) => a.unlocked).map((a) => a.id)
@@ -244,6 +255,7 @@ export const useAppStore = create<AppState>()(
               xp: state.xp,
               level: state.level,
               streakDays: state.streakDays,
+              lastStudyDate: state.lastStudyDate,
               studyMinutes: state.studyMinutes,
               learnedWordIds: state.learnedWordIds,
               completedLessons: state.completedLessons,
@@ -305,6 +317,7 @@ export const useAppStore = create<AppState>()(
         xp: state.xp,
         level: state.level,
         streakDays: state.streakDays,
+        lastStudyDate: state.lastStudyDate,
         studyMinutes: state.studyMinutes,
         learnedWordIds: state.learnedWordIds,
         completedLessons: state.completedLessons,
